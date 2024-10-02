@@ -23,10 +23,10 @@ function interpretarRegistro(linha) {
 
     const dados = {
       NSR,
-      TipoRegistro: "3 - MARCAÇÃO DE PONTO",
-      DataHora: moment(dataHoraStr).format(), // Formata data e hora
+      tipoRegistro: "3 - MARCAÇÃO DE PONTO",
+      dataHora: moment(dataHoraStr).format(), // Formata data e hora
       CPF,
-      CRC16: crc16.padStart(4, "0"), // Preenche com zeros à esquerda se necessário
+      crc16: crc16.padStart(4, "0"), // Preenche com zeros à esquerda se necessário
     };
 
     fs.writeFileSync('nsr.json', JSON.stringify(dados));
