@@ -10,6 +10,8 @@ dotenv.config();
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.insecureHTTPParser = true;
 
+iconv.skipDecodeWarning = true;
+
 async function login() {
   try {
     const response = await axios.post("https://192.168.1.10/login.fcgi", {
@@ -24,7 +26,7 @@ async function login() {
 }
 
 const session = await login();
-console.log(`ID da sessão: ${session}`);
+console.log(session);
 
 async function getAfd() {
   let buffer = "";
@@ -59,6 +61,7 @@ async function getAfd() {
 
     // buffer += iconv.decode(response.data, 'win1252');
     let decodedRes = iconv.decode(buffer.concat(response.data), 'win1252')
+    
     const linhas = decodedRes.split("\n");
     const fileName = linhas[linhas.length - 1];
 
@@ -121,5 +124,3 @@ async function exportUsers() {
   }
 
 }
-
-exportUsers()

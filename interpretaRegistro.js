@@ -2,7 +2,7 @@ import crc from "crc"
 import moment from "moment"
 import fs from 'fs'
 
-moment.locale('pt-br');
+moment().locale('pt-br');
 
 function interpretarRegistro(linha) {
   linha = linha.replace(/\r\n/g, "\n");
@@ -15,7 +15,7 @@ function interpretarRegistro(linha) {
 
     const NSR = linha.substring(0, 9).trim();
     const dataHoraStr = linha.substring(10, 34);
-    const CPF = linha.substring(34, 46).trim();
+    const CPF = linha.substring(35, 46).trim();
     const crc16 = crc
       .crc16xmodem(linha.substring(0, 46))
       .toString(16)
@@ -24,7 +24,7 @@ function interpretarRegistro(linha) {
     const dados = {
       NSR,
       TipoRegistro: "3 - MARCAÇÃO DE PONTO",
-      DataHora: moment(dataHoraStr).toDate(), // Formata data e hora
+      DataHora: moment(dataHoraStr).format(), // Formata data e hora
       CPF,
       CRC16: crc16.padStart(4, "0"), // Preenche com zeros à esquerda se necessário
     };
