@@ -4,6 +4,8 @@ import fs from "fs";
 import iconv from "iconv-lite";
 
 import { interpretarRegistro } from "./interpretaRegistro.js";
+import connectDb from "./config/connectDatabase.js";
+import RegistroPonto from "./models/RegistroPonto.js";
 
 dotenv.config();
 
@@ -77,7 +79,20 @@ async function getAfd() {
       }
     }
 
-    console.log(registros)
+    if (registros.length > 0) {
+
+      const conn = connectDb();
+
+      for (let i = 0; i < registros.length; i++) {
+        console.log(registros[i])
+        // await RegistroPonto.create({ ...registros[i]})
+      }
+
+      // console.log(registros)
+    } else {
+      console.log("Registros de ponto nâo localizados")
+    }
+
 
     if (response.data !== '') {
       fs.writeFileSync(`${fileName}`, response.data, null, 2);
@@ -91,36 +106,3 @@ async function getAfd() {
 
 getAfd();
 
-/* Função para exportar cadastros de usuarios em um rep.
-1. a função primeiro busca a quantidade de usuarios cadastrados em um rep principal
-2. Caso ocorra o cadastro de um novo usuario no rep principal, ocorre a replicacao para os outros rep
-*/
-async function exportUsers() {
-
-  //configurando a url para realizar a requisição para verificar a contagem de usuarios no rep principal
-  const url = new URL("https://192.168.1.10/count_users.fcgi");
-  url.searchParams.append("session", session.session);
-  url.searchParams.append("mode", 671);
-
-  const urlExport = new URL("https://192.168.1.10/export_users_csv.fcgi");
-  urlExport.searchParams.append("session", session.session);
-  urlExport.searchParams.append("mode", 671);
-
-  try {
-
-    // req. para buscar a quantidade de usuarios no rep main
-    const response = await axios.post(url.toString(), {})
-    console.log(response.data)
-
-    const responseData = await axios.post(urlExport.toString(), {})
-    
-    if (response.data !== '') {
-      fs.writeFileSync('./users.csv', responseData.data, null, 2);
-      console.log('Resposta salva em users.csv');
-    }
-    
-  } catch (error) {
-    console.error(error)
-  }
-
-}
