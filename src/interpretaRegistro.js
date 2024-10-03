@@ -1,8 +1,8 @@
 import crc from "crc"
-import moment from "moment"
+import moment from 'moment-timezone'
 import fs from 'fs'
 
-moment().locale('pt-br');
+moment().tz("America/Sao_Paulo");
 
 function interpretarRegistro(linha) {
   linha = linha.replace(/\r\n/g, "\n");
@@ -13,19 +13,21 @@ function interpretarRegistro(linha) {
       return null;
     }
 
-    const NSR = linha.substring(0, 9).trim();
-    const dataHoraStr = linha.substring(10, 34);
-    const CPF = linha.substring(35, 46).trim();
+    
+    const nsr = linha.substring(0, 9).trim();
+    const dataHora = linha.substring(10, 34);
+    const dataHoraSP = moment().format(dataHora);
+    const cpf = linha.substring(35, 46).trim();
     const crc16 = crc
       .crc16xmodem(linha.substring(0, 46))
       .toString(16)
       .toUpperCase();
 
     const dados = {
-      NSR,
+      nsr: nsr,
       tipoRegistro: "3 - MARCAÇÃO DE PONTO",
-      dataHora: moment(dataHoraStr).format(), // Formata data e hora
-      CPF,
+      dataHora: moment().format(dataHoraSP), // Formata data e hora
+      cpf: cpf,
       crc16: crc16.padStart(4, "0"), // Preenche com zeros à esquerda se necessário
     };
 
