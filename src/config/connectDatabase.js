@@ -5,7 +5,7 @@ dotenv.config();
 
 async function connectDb() {
   try {
-    const connection = await mongoose.connect(process.env.MONGODB_URI);
+    const connection = await mongoose.connect(process.env.MONGODB_URI, {dbName: 'rep-manager'});
 
     console.log("Conexão com banco feita com sucesso")
 
