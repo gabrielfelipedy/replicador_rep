@@ -16,7 +16,12 @@ iconv.skipDecodeWarning = true;
 
 
 let initial_nsr = process.argv[2]
-console.log(`Initial NSR: ${initial_nsr}`)
+
+if (process.argv[2]){
+  console.log(`Initial NSR: ${initial_nsr}`)
+}
+
+
 
 async function login() {
   try {
@@ -32,7 +37,6 @@ async function login() {
 }
 
 const session = await login();
-console.log(session);
 
 async function getAfd() {
   let buffer = "";
@@ -43,6 +47,11 @@ async function getAfd() {
     const nsrFileContent = fs.readFileSync("./nsr.json", "utf-8");
     const dadosLidos = JSON.parse(nsrFileContent);
     const ultimoNsrLido = parseInt(dadosLidos.nsr);
+
+    if (!process.argv[2]) {
+      initial_nsr = ultimoNsrLido + 1;
+      console.log(`Initial NSR: ${initial_nsr}`);
+    }
     // initial_nsr = ultimoNsrLido + 1;
     // console.log(`Initial NSR: ${initial_nsr}`);
   } catch (error) {
@@ -95,6 +104,7 @@ async function getAfd() {
       if (registros.length > 0) {
         try {
           const insertManyResult = await RegistroPonto.insertMany(registros);
+          console.log("Registros incluídos com sucesso")
           // console.log(insertManyResult);
         } catch (error) {
           console.error(error);
