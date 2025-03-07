@@ -21,13 +21,12 @@ if (process.argv[2]){
   console.log(`Initial NSR: ${initial_nsr}`)
 }
 
-
-
+// FAZ LOGIN E RETORNA UMA STRING COM O CÓDIGO DA SESSÃO INICIADA 
 async function login() {
   try {
-    const response = await axios.post("https://192.168.1.10/login.fcgi", {
-      login: "admin",
-      password: "admin",
+    const response = await axios.post(`${process.env.RELOGIO_URL}/login.fcgi`, {
+      login: process.env.LOGIN_USER,
+      password: process.env.PASSWORD_USER,
     });
 
     return response.data;
@@ -36,9 +35,7 @@ async function login() {
   }
 }
 
-const session = await login();
-
-async function getAfd() {
+async function getAfd(session) {
   let buffer = "";
   let registros = [];
   
@@ -64,7 +61,7 @@ async function getAfd() {
     }
   }
 
-  const url = new URL("https://192.168.1.10/get_afd.fcgi");
+  const url = new URL(`${process.env.RELOGIO_URL}/get_afd.fcgi`);
   url.searchParams.append("session", session.session);
   url.searchParams.append("mode", 671);
 
@@ -127,4 +124,5 @@ async function getAfd() {
   }
 }
 
-getAfd();
+const session = await login();  //STRING
+getAfd(session);
