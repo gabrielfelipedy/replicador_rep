@@ -39,5 +39,5 @@ function interpretarRegistro(linha) {
     return null;
   }
 }
-
+  
 export { interpretarRegistro }
