@@ -1,14 +1,12 @@
 import axios from "axios";
 import * as dotenv from "dotenv";
-import fs from "fs";
 import iconv from "iconv-lite";
 
-import { interpretarRegistro } from "./src/interpretaRegistro.js";
-import connectDb from "./src/config/connectDatabase.js";
-import RegistroPonto from "./src/models/RegistroPonto.js";
+
 import { getAfdByInitialDate } from "./src/controllers/AFDByInitialDate.js";
 import { getAfdByInitialNSR } from "./src/controllers/AFDByInitialNSR.js";
 import { getAllAfd } from "./src/controllers/AFDController.js";
+import { getLastNSR } from "./src/controllers/ReadLastNSR.js";
 
 dotenv.config();
 
@@ -17,12 +15,9 @@ axios.defaults.insecureHTTPParser = true;
 
 iconv.skipDecodeWarning = true;
 
-
-let initial_nsr = process.argv[2]
-
-if (process.argv[2]){
-  console.log(`Initial NSR: ${initial_nsr}`)
-}
+//LÊ O ÚLTIMO NSR INSERIDO
+let initial_nsr = await getLastNSR() + 1;
+console.log(`Initial NSR: ${initial_nsr}`)
 
 // FAZ LOGIN E RETORNA UMA STRING COM O CÓDIGO DA SESSÃO INICIADA 
 async function login() {
@@ -38,7 +33,6 @@ async function login() {
   }
 }
 
+//OBTER AFD PELO NSR INICIAL
 const session = await login();  //STRING
-getAllAfd(session)
-// getAfdByInitialNSR(session, initial_nsr)
-// getAfdByInitialDate(session);
+getAfdByInitialNSR(session, initial_nsr)

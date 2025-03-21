@@ -1,7 +1,6 @@
 import axios from "axios";
 import iconv from "iconv-lite";
 import fs from "fs";
-import { interpretarRegistro } from "../interpretaRegistro.js";
 import RegistroPonto from "../models/RegistroPonto.js";
 
 export async function getAfdByInitialDate(session) {
