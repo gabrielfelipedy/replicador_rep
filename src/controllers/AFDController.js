@@ -1,8 +1,8 @@
 import axios from "axios";
 import iconv from "iconv-lite";
 import fs from "fs";
-import { interpretarRegistro } from "../interpretaRegistro.js";
 import RegistroPonto from "../models/RegistroPonto.js";
+import connectDb from "../config/connectDatabase.js";
 
 export async function getAllAfd(session) {
   let buffer = "";
@@ -48,7 +48,8 @@ export async function getAllAfd(session) {
       fs.writeFileSync(`${fileName}`, response.data, null, 2);
       console.log(`AFD salvo em ${fileName}`);
 
-      // const conn = await connectDb();
+      //Conexão com database
+      const conn = await connectDb();
 
       for (let i = 0; i < linhas.length - 1; i++) {
         const linha = linhas[i];
