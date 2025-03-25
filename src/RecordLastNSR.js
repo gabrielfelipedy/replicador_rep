@@ -14,7 +14,7 @@ export async function RecordLastNSR(linha) {
     const nsr = linha.substring(0, 9).trim();
 
     const dados = {
-      nsr: nsr,
+      nsr: Number(nsr),
     };
 
     //GRAVA OS DADOS INTERPRETADOS

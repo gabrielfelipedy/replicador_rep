@@ -1,9 +1,6 @@
 import axios from "axios";
 import iconv from "iconv-lite";
-import fs from "fs";
-import { RecordLastNSR } from "../RecordLastNSR.js";
-import RegistroPonto from "../models/RegistroPonto.js";
-import connectDb from "../config/connectDatabase.js";
+
 import { processLine } from "../ProcessLine.js";
 import { writeRegistros } from "../config/WriteRegistros.js";
 
@@ -54,21 +51,9 @@ export async function getAfdByInitialNSR(session, initial_nsr) {
           const registro = await processLine(linha);
 
           //SE PROCESSAMENTO FOI VÁLIDO
-          if (registro) {
-          
+          if (registro)
+          {
             registros.push(registro)
-
-            // try {
-            //   const conn = await connectDb();
-
-            //   const insertion = `INSERT INTO ponto_terminal_entradas (chave, created_at, updated_at) VALUES ($1, NOW(), NOW()) RETURNING *;`;
-
-            //   const res = await conn.query(insertion, [registro]);
-            //   console.log('registro inserted:', res.rows[0]);
-
-            // } catch (error) {
-            //   console.error('Error inserting register:', error.stack);
-            // }
           }
         }
       }
