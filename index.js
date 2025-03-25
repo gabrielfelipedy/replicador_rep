@@ -2,11 +2,9 @@ import axios from "axios";
 import * as dotenv from "dotenv";
 import iconv from "iconv-lite";
 
-
-import { getAfdByInitialDate } from "./src/controllers/AFDByInitialDate.js";
-import { getAfdByInitialNSR } from "./src/controllers/AFDByInitialNSR.js";
-import { getAllAfd } from "./src/controllers/AFDController.js";
 import { getLastNSR } from "./src/controllers/ReadLastNSR.js";
+import { getAfdByInitialNSR } from "./src/controllers/AFDByInitialNSR.js";
+
 
 dotenv.config();
 
