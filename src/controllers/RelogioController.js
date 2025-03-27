@@ -32,7 +32,7 @@ export async function getAllTimeClocks() {
     console.log(relogios);
 
     //GRAVA OS DADOS INTERPRETADOS
-    fs.writeFileSync("relogios.json", JSON.stringify(relogios));
+    fs.writeFileSync("relogios.json", JSON.stringify(relogios, null, 2));
     console.log("Dados foram gravados");
 
     connection.end();

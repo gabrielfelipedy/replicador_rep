@@ -8,7 +8,7 @@ export async function writeRegistros(registros, clock_id) {
     try {
       const insertion = `INSERT INTO ponto_terminal_entradas (ponto_terminal_id, tipo, chave, created_at, updated_at) VALUES ($1, $2, $3, NOW(), NOW()) RETURNING *;`;
 
-      const res = await connection.query(insertion, [3, "ponto", registro]);
+      const res = await connection.query(insertion, [clock_id, "ponto", registro]);
 
       console.log("registro processado:", res.rows[0]);
 
