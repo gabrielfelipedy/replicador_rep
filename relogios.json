@@ -1,0 +1,14 @@
+[
+    {
+        "id": 3,
+        "ip":"172.18.5.240",
+        "descricao":"Relógio de Ponto 1"
+        
+    },
+    {
+        "id": "4",
+        "ip":"172.18.5.241",
+        "descricao":"Relógio de Ponto 2"
+        
+    }
+]
