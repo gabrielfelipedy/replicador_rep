@@ -1,7 +1,7 @@
 import { RecordLastNSR } from "../RecordLastNSR.js";
 import connectDb from "./connectDatabase.js";
 
-export async function writeRegistros(registros) {
+export async function writeRegistros(registros, clock_id) {
   const connection = await connectDb();
 
   for (let registro of registros) {
@@ -12,9 +12,9 @@ export async function writeRegistros(registros) {
 
       console.log("registro processado:", res.rows[0]);
 
-      await RecordLastNSR(registro);
+      await RecordLastNSR(registro, clock_id);
       console.log("writing last nsr");
-      
+
     } catch (error) {
       console.error("Error inserting register", error);
     }
