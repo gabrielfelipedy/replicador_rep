@@ -1,0 +1,16 @@
+[
+  {
+    "id": 3,
+    "ip": "172.18.5.240",
+    "descricao": "Relógio teste",
+    "user": "admin",
+    "password": "admin"
+  },
+  {
+    "id": 2,
+    "ip": "172.18.5.241",
+    "descricao": "Relógio Teste 2",
+    "user": "admin",
+    "password": "admin"
+  }
+]

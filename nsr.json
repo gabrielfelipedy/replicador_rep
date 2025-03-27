@@ -1,1 +1,10 @@
-{"nsr":"000000074","tipoRegistro":"3 - MARCAÇÃO DE PONTO","dataHora":"2024-10-08T10:51:00-0300","cpf":"83384316215","crc16":"1DED"}
+[
+  {
+    "clock_id": 2,
+    "last_nsr": "000000008"
+  },
+  {
+    "clock_id": 3,
+    "last_nsr": "000000096"
+  }
+]
