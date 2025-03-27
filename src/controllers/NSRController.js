@@ -12,6 +12,8 @@ export async function getAfdByInitialNSR(session, clock_url, clock_id, initial_n
   let buffer = "";
   let registros = [];
 
+  console.log(`\nInitial NSR: ${initial_nsr}`)
+
   //PREPARA A URL PARA OBTER O AFD
   const url = new URL(`https://${clock_url}/get_afd.fcgi`);
   url.searchParams.append("session", session.session);

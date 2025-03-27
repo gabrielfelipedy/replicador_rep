@@ -11,15 +11,24 @@ dotenv.config();
 iconv.skipDecodeWarning = true;
 
 //LÊ O ÚLTIMO NSR INSERIDO
-let last_nsr = await getLastNSR()
-console.log(Number(last_nsr[0].last_nsr) + 1)
-console.log(Number(last_nsr[1].last_nsr) + 1)
-
+const last_nsrs = await getLastNSR();
 const clocks = await getAllTimeClocks();
 
 if (clocks) {
-  //OBTER AFD PELO NSR INICIAL
-  const session = await login(clocks[0]); //STRING
-  console.log(session);
-  getAfdByInitialNSR(session, clocks[0].ip, clocks[0].id, Number(last_nsr[0].last_nsr) + 1);
+  clocks.map(async (clock) => {
+    const session = await login(clock);
+
+    const last_nsr = last_nsrs.find(
+      (last_nsr) => last_nsr.clock_id === clock.id
+    );
+
+    //console.log(`clock id: ${clock.id}\nlast_nsr: `, last_nsr)
+
+    await getAfdByInitialNSR(
+      session,
+      clock.ip,
+      clock.id,
+      Number(last_nsr.last_nsr) + 1
+    );
+  });
 }
