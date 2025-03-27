@@ -1,36 +1,25 @@
-import axios from "axios";
 import * as dotenv from "dotenv";
 import iconv from "iconv-lite";
 
-import { getLastNSR } from "./src/controllers/ReadLastNSR.js";
-import { getAfdByInitialNSR } from "./src/controllers/AFDByInitialNSR.js";
-
+import { getLastNSR } from "./src/controllers/NSRController.js";
+import { getAfdByInitialNSR } from "./src/controllers/NSRController.js";
+import { getAllTimeClocks } from "./src/controllers/RelogioController.js";
+import { login } from "./src/controllers/AuthController.js";
 
 dotenv.config();
-
-axios.defaults.headers.post["Content-Type"] = "application/json";
-axios.defaults.insecureHTTPParser = true;
 
 iconv.skipDecodeWarning = true;
 
 //LÊ O ÚLTIMO NSR INSERIDO
-let initial_nsr = await getLastNSR() + 1;
-console.log(`Initial NSR: ${initial_nsr}`)
+let last_nsr = await getLastNSR()
+console.log(Number(last_nsr[0].last_nsr) + 1)
+console.log(Number(last_nsr[1].last_nsr) + 1)
 
-// FAZ LOGIN E RETORNA UMA STRING COM O CÓDIGO DA SESSÃO INICIADA 
-async function login() {
-  try {
-    const response = await axios.post(`${process.env.RELOGIO_URL}/login.fcgi`, {
-      login: process.env.LOGIN_USER,
-      password: process.env.PASSWORD_USER,
-    });
+const clocks = await getAllTimeClocks();
 
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
+if (clocks) {
+  //OBTER AFD PELO NSR INICIAL
+  const session = await login(clocks[0]); //STRING
+  console.log(session);
+  getAfdByInitialNSR(session, clocks[0].ip, clocks[0].id, Number(last_nsr[0].last_nsr) + 1);
 }
-
-//OBTER AFD PELO NSR INICIAL
-const session = await login();  //STRING
-getAfdByInitialNSR(session, initial_nsr)

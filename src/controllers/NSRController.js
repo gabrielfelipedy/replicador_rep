@@ -1,17 +1,19 @@
 import axios from "axios";
 import iconv from "iconv-lite";
 
+import fs from "fs";
+
 import { processLine } from "../ProcessLine.js";
 import { writeRegistros } from "../config/WriteRegistros.js";
 
-export async function getAfdByInitialNSR(session, initial_nsr) {
+export async function getAfdByInitialNSR(session, clock_url, clock_id, initial_nsr) {
   //console.log("initial NSR recebido ", initial_nsr)
 
   let buffer = "";
   let registros = [];
 
   //PREPARA A URL PARA OBTER O AFD
-  const url = new URL(`${process.env.RELOGIO_URL}/get_afd.fcgi`);
+  const url = new URL(`https://${clock_url}/get_afd.fcgi`);
   url.searchParams.append("session", session.session);
   url.searchParams.append("mode", 671);
 
@@ -62,7 +64,7 @@ export async function getAfdByInitialNSR(session, initial_nsr) {
         
           console.log("\nRegistros incluídos com sucesso\n");
           
-          await writeRegistros(registros) 
+          await writeRegistros(registros, clock_id) 
        
       } else {
         console.log("Nâo foram localizados novos registros de pontos");
@@ -79,5 +81,25 @@ export async function getAfdByInitialNSR(session, initial_nsr) {
     // }
   } catch (error) {
     console.error(error);
+  }
+}
+
+export async function getLastNSR() {
+  try {
+    const nsrFileContent = fs.readFileSync("./nsr.json", "utf-8");
+    const dadosLidos = JSON.parse(nsrFileContent);
+    
+    return dadosLidos
+
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      console.log("Arquivo nsr.json não encontrado. Iniciando com NSR 1.");
+    } else if (error instanceof SyntaxError) {
+      console.error("Erro ao analisar nsr.json:", error);
+    } else {
+      console.error("Erro inesperado ao ler nsr.json:", error);
+    }
+
+    return 0
   }
 }
