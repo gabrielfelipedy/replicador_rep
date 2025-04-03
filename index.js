@@ -14,6 +14,8 @@ iconv.skipDecodeWarning = true;
 const last_nsrs = await getLastNSR();
 const clocks = await getAllTimeClocks();
 
+console.log(clocks)
+
 if (clocks) {
   clocks.map(async (clock) => {
     const session = await login(clock);
