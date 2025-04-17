@@ -3,7 +3,7 @@ import moment from 'moment-timezone'
 moment().tz("America/Sao_Paulo");
 
 //INTERPRETA SOMENTE OS REGISTROS DE PONTO
-export async function processLine(linha) {
+export async function processLine(linha: string) {
 
   //TRATA AS QUEBRAS DE LINHA E ESPAÇOS
   linha = linha.replace(/\r\n/g, "\n").trim();

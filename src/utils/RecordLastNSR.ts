@@ -1,10 +1,11 @@
 import moment from "moment-timezone";
 import fs from "fs";
+import { Clock } from "../models/Clock.js";
 
 moment().tz("America/Sao_Paulo");
 
 //INTERPRETA SOMENTE OS REGISTROS DE PONTO
-export async function RecordLastNSR(linha, clock_id) {
+export async function RecordLastNSR(linha: string, clock_id: number) {
   //TRATA AS QUEBRAS DE LINHA
   linha = linha.replace(/\r\n/g, "\n").trim();
 
@@ -15,7 +16,7 @@ export async function RecordLastNSR(linha, clock_id) {
     const dadosLidos = JSON.parse(nsrFileContent);
 
     const clock_to_update = dadosLidos.find(
-      (clock) => clock.clock_id === clock_id
+      (clock: Clock) => clock.id === clock_id
     );
 
     if (clock_to_update) {

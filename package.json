@@ -4,16 +4,21 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "node index.js",
+    "dev": "tsc --watch & nodemon",
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "build": "npx esbuild index.ts --bundle --outfile=dist/bundle.js --platform=node --format=esm --packages=external && cp clocks.json dist/ && cp nsr.json dist/ && cp .env dist/"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/node": "^22.14.1",
+    "@types/pg": "^8.11.13",
+    "nodemo": "^1.0.0",
     "nodemon": "^3.1.4",
+    "typescript": "^5.8.3",
     "vitest": "^3.1.1"
   },
   "dependencies": {
