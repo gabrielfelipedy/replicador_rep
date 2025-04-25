@@ -7,7 +7,7 @@
     "dev": "tsc --watch & nodemon",
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "build": "npx esbuild index.ts --bundle --outfile=dist/bundle.js --platform=node --format=esm --packages=external && cp clocks.json dist/ && cp nsr.json dist/ && cp .env dist/"
+    "build": "npx esbuild index.ts --bundle --outfile=dist/bundle.js --platform=node --format=esm --packages=external && cp relogios.json dist/ && cp nsr.json dist/ && cp .env dist/"
   },
   "keywords": [],
   "author": "",

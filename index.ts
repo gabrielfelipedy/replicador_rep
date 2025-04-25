@@ -25,10 +25,16 @@ if (clocks) {
 
     //console.log(`clock id: ${clock.id}\nlast_nsr: `, last_nsr)
 
-    await getAfdByInitialNSR(
-      session,
-      clock,
-      Number(last_nsr.last_nsr) + 1
-    );
+    if (session) {
+      await getAfdByInitialNSR(
+        session,
+        clock,
+        Number(last_nsr.last_nsr) + 1
+      );
+    }
+    else
+    {
+      console.log("Invalid session")
+    }
   });
 }
