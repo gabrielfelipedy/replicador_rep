@@ -1,6 +1,6 @@
 import moment from "moment-timezone";
 import fs from "fs";
-import { Clock } from "../models/Clock.js";
+import { NSR } from "../models/NSR.js";
 
 moment().tz("America/Sao_Paulo");
 
@@ -16,7 +16,7 @@ export async function RecordLastNSR(linha: string, clock_id: number) {
     const dadosLidos = JSON.parse(nsrFileContent);
 
     const clock_to_update = dadosLidos.find(
-      (clock: Clock) => clock.id === clock_id
+      (nsr: NSR) => nsr.clock_id === clock_id
     );
 
     if (clock_to_update) {

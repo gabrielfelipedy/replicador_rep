@@ -12,5 +12,12 @@
     "descricao": "Relógio de ponto NUTEC - DEV - II",
     "user": "admin",
     "password": "admin"
+  },
+  {
+    "id": 9,
+    "ip": "172.18.33.243",
+    "descricao": "Relógio de ponto Laranjal do Jari",
+    "user": "admin",
+    "password": "admin"
   }
 ]
